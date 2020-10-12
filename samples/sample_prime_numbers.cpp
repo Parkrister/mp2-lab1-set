@@ -18,7 +18,7 @@ int main()
 {
   int n, m, k, count;
 
-  setlocale(LC_ALL, "Russian");
+  setlocale(LC_ALL, "Russian"); //.UTF8
   cout << "Тестирование программ поддержки битового поля" << endl;
   cout << "             Решето Эратосфена" << endl;
   cout << "Введите верхнюю границу целых значений - ";
@@ -27,6 +27,8 @@ int main()
   // заполнение множества
   for (m = 2; m <= n; m++)
     s.SetBit(m);
+
+  cout << s << endl;
   // проверка до sqrt(n) и удаление кратных
   for (m = 2; m * m <= n; m++)
     // если m в s, удаление кратных
@@ -39,6 +41,9 @@ int main()
   cout << endl << "Печать простых чисел" << endl;
   count = 0;
   k = 1;
+
+  cout << s << endl << "-----------------\n"; 
+
   for (m = 2; m <= n; m++)
     if (s.GetBit(m))
     {
@@ -48,6 +53,7 @@ int main()
         cout << endl;
     }
   cout << endl;
+  cout << s << endl;
   cout << "В первых " << n << " числах " << count << " простых" << endl;
 }
 #else
