@@ -24,6 +24,9 @@ int main()
   cout << "Введите верхнюю границу целых значений - ";
   cin  >> n;
   TBitField s(n + 1);
+  TBitField x(s);
+  cout << x;
+
   // заполнение множества
   for (m = 2; m <= n; m++)
     s.SetBit(m);

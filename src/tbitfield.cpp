@@ -7,10 +7,12 @@
 
 #include "tbitfield.h"
 
+
 TBitField::TBitField(int len)
 {
+	if (len < 0) throw len;
 	BitLen = len;
-	MemLen = len / 32 + 1;
+	MemLen = floor(len / 32) + 1;
 	pMem = new TELEM[MemLen];
 	for (int i = 0; i < MemLen; i++) {
 		pMem[i] = 0;
@@ -21,13 +23,13 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
 {
 	if (MemLen != bf.MemLen) {
 		MemLen = bf.MemLen;
-		delete[] pMem;
+		delete [] pMem;
 		pMem = new TELEM[MemLen];
 	}
+	BitLen = bf.BitLen;
 	for (int i = 0; i < MemLen; i++) {
 		pMem[i] = bf.pMem[i];
 	}
-	BitLen = bf.BitLen;
 }
 
 TBitField::~TBitField()
@@ -37,11 +39,13 @@ TBitField::~TBitField()
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
-	return n % 32;
+	if (n < 0 ) throw n;
+	return n / 32;
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
+	if (n < 0) throw n;
 	TELEM one = 1, tmp = (n % 32);
 	return (one << tmp);
 }
@@ -55,6 +59,7 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int n) // установить бит
 {
+	if (n < 0 || n > BitLen) throw n;
 	int i = GetMemIndex(n);
 	TELEM m = GetMemMask(n);
 	pMem[i] = pMem[i] | m;
@@ -63,6 +68,7 @@ void TBitField::SetBit(const int n) // установить бит
 
 void TBitField::ClrBit(const int n) // очистить бит
 {
+	if (n < 0 || n > BitLen) throw n;
 	int i = GetMemIndex(n);
 	TELEM m = GetMemMask(n);
 		pMem[i] &= ~m;
@@ -70,6 +76,7 @@ void TBitField::ClrBit(const int n) // очистить бит
 
 int TBitField::GetBit(const int n) const // получить значение бита
 {
+	if (n < 0 || n > BitLen) throw n;
 	int i = GetMemIndex(n);
 	TELEM m = GetMemMask(n);
     return pMem[i] & m;
@@ -115,11 +122,14 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	TBitField res(BitLen > bf.BitLen ? MemLen : bf.MemLen);
+	TBitField res(BitLen >= bf.BitLen ? BitLen : bf.BitLen);
 	if (BitLen >= bf.BitLen) {
 		for (int i = 0; i < bf.BitLen; i++) {
 			if (bf.GetBit(i))
 				res.SetBit(i);
+			else {
+				res.ClrBit(i);
+			}
 		}
 		for (int i = 0; i < MemLen; i++) {
 			res.pMem[i] |= pMem[i];
