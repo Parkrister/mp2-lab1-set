@@ -7,7 +7,7 @@
 
 #include <iomanip>
 
-// #define USE_SET // Использовать класс TSet,
+ #define USE_SET // Использовать класс TSet,
                 // закоментировать, чтобы использовать битовое поле
 
 #ifndef USE_SET // Использовать класс TBitField
@@ -23,9 +23,8 @@ int main()
   cout << "             Решето Эратосфена" << endl;
   cout << "Введите верхнюю границу целых значений - ";
   cin  >> n;
-  TBitField s(n + 1);
-  TBitField x(s);
-  cout << x;
+
+  TBitField s(n+1);
 
   // заполнение множества
   for (m = 2; m <= n; m++)

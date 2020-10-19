@@ -12,7 +12,7 @@ TBitField::TBitField(int len)
 {
 	if (len < 0) throw len;
 	BitLen = len;
-	MemLen = floor(len / 32) + 1;
+	MemLen = len / 32 + 1;
 	pMem = new TELEM[MemLen];
 	for (int i = 0; i < MemLen; i++) {
 		pMem[i] = 0;
@@ -22,9 +22,9 @@ TBitField::TBitField(int len)
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
 {
 	if (MemLen != bf.MemLen) {
+		delete[] pMem;
 		MemLen = bf.MemLen;
-		delete [] pMem;
-		pMem = new TELEM[MemLen];
+		pMem = new TELEM[bf.MemLen];
 	}
 	BitLen = bf.BitLen;
 	for (int i = 0; i < MemLen; i++) {
