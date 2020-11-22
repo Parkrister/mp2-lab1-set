@@ -22,21 +22,6 @@ HANDLE nConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 int main()
 {
 	SetConsoleTextAttribute(nConsole, 15);
-	////////////////////
-	TBitField a(4), b(6);
-	a.SetBit(0);
-	a.SetBit(1);
-	a.SetBit(2);
-	b.SetBit(2);
-	b.SetBit(3);
-	cout << a << " " << b << endl;
-
-	TBitField c(6);
-	c = a & b;
-	cout << c;
-
-	return 0;
-	///////////////////
 
   int n, m, k, count;
 
@@ -87,21 +72,7 @@ int main()
 int main()
 {
   SetConsoleTextAttribute(nConsole, 15);
-  
-  //////
-  TSet a(3), b(5);
-  a.InsElem(1);
-  a.InsElem(2);
-
-  b.InsElem(2);
-  b.InsElem(4);
-  cout << a << " " << b << endl;
-  TSet c(5);
-  c = a * b;
-  cout << c;
-  return 0;
-  ///////
-  
+    
   int n, m, k, count;
 
   setlocale(LC_ALL, "Russian");
